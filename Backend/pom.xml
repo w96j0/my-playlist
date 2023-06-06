@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.valantic</groupId>
-    <artifactId>my-playlist-backend</artifactId>
+    <artifactId>Backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>my-playlist-backend</name>
     <description>my-playlist-backend</description>
