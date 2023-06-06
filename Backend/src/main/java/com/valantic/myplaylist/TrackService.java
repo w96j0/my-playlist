@@ -15,4 +15,8 @@ public class TrackService {
     public List<Track> getTracks() {
         return trackRepository.findAll();
     }
+
+    public void addTrack(Track newTrack) {
+        trackRepository.save(newTrack);
+    }
 }
