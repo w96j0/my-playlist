@@ -1,0 +1,20 @@
+server:
+  port:
+spring:
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5331/track
+    username: user
+    password: password
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # When you launch the application for the first time - switch "none" at "create"
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  main:
+    web-application-type:

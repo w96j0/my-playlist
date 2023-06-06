@@ -10,11 +10,13 @@ import java.util.List;
 @RequestMapping("/myPlaylist/tracks")
 public class TrackController {
 
-    public TrackController() {
+    private final TrackService trackService;
+    public TrackController(TrackService trackService) {
+        this.trackService = trackService;
     }
 
     @GetMapping
-    public String getTracks() {
-        return "dummy Test";
+    public List<Track> getTracks() {
+        return trackService.getTracks();
     }
 }
