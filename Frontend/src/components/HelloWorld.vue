@@ -27,6 +27,9 @@
         <input v-model="track.name" type="text" />
 
         <input v-model="track.artist" type="text" />
+        <input v-model="track.genre" type="text" />
+        <input v-model="track.album" type="text" />
+        <input v-model="track.duration" type="number" />
 
         <button @click="deleteTrack(track.id)">Löschen</button>
 

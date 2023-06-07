@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -25,7 +26,7 @@ class TrackControllerTest {
     @Test
     void getTracks() throws Exception {
 //        given
-        Track track1 = new Track( 1,
+        Track track1 = new Track(1,
                 "title1",
                 "artist1",
                 "album1",
@@ -34,20 +35,16 @@ class TrackControllerTest {
 
         trackRepository.save(track1);
 
-        String expectedJson  = """
-                1,
-                "title1",
-                "artist1",
-                "album1",
-                "genre1",
-                1L
+        String expectedJson = """ 
+                [{
+                "id":1,"name":"title1","artist":"artist1","album":"album1","genre":"genre1","duration":1
+                }]
                 """;
-//        when
+//        when + then
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
 
-
-//        then
     }
 }
