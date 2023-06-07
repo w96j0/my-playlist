@@ -1,0 +1,21 @@
+server:
+  port:
+spring:
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5331/playlist-db
+    username: user
+    password: password
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: create  # When you launch the application for the first time - switch "none" at "create"
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    generate-ddl: true
+
+  main:
+    web-application-type:
