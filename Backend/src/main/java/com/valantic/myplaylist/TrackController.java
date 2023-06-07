@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/myPlaylist/tracks")
+@RequestMapping("/api/tracks")
 public class TrackController {
 
     private final TrackService trackService;
