@@ -51,6 +51,11 @@ class TrackControllerTest {
     }
 
     @Test
+    void test_addTrack_Avoid_Duplicate_Song() {
+
+    }
+
+    @Test
     void test_addTrack_name_NotBlank() throws Exception {
         String testTrackJson = """ 
                 {
