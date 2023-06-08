@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -94,5 +95,29 @@ class TrackControllerTest {
                 .andExpect(status().isOk());
 
         assertTrue(trackRepository.existsById(1));
+    }
+
+    @Test
+    void test_deleteTrack() throws Exception {
+//        given
+        Track testTrack = new Track(1,
+                "Komet",
+                "Apache 207 und Udo Lindenberg",
+                "Komet",
+                "German Pop",
+                16753225
+        );
+
+        trackRepository.save(testTrack);
+        String testId = "1";
+
+//        when
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/" + testTrack.getId()))
+//        then
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        assertFalse(trackRepository.existsById(testTrack.getId()));
+
     }
 }
