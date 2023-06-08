@@ -25,6 +25,7 @@ public class Track {
     private Integer id;
     @NotBlank
     private String name;
+    @NotBlank
     private String artist;
     private String album;
     private String genre;

@@ -80,12 +80,33 @@ class TrackControllerTest {
     }
 
     @Test
-    void test_addTrack_name_NotBlank() throws Exception {
+    void test_addTrack_Name_NotBlank() throws Exception {
         String testTrackJson = """ 
                 {
                 "id":1,
-                "name":,
+                "name":"",
                 "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void test_addTrack_Artist_NotBlank() throws Exception {
+        String testTrackJson = """ 
+                {
+                "name":"Komet",
+                "artist":"",
                 "album":"Komet",
                 "genre":"German Pop",
                 "duration":16753225
@@ -121,6 +142,8 @@ class TrackControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
+
+//        TODO check the return value
 
         assertTrue(trackRepository.existsById(1));
     }

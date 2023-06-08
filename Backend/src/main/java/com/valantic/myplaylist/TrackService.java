@@ -3,6 +3,7 @@ package com.valantic.myplaylist;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrackService {
@@ -22,5 +23,9 @@ public class TrackService {
         }
 
         trackRepository.save(newTrack);
+    }
+
+    public Optional<Track> getTrack(Integer id) {
+        return trackRepository.findById(id);
     }
 }

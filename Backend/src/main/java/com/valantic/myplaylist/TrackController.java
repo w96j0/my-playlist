@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tracks")
@@ -20,7 +21,10 @@ public class TrackController {
     }
 
     @PostMapping
-    public void addTrack(@Valid @RequestBody Track newTrack) {
+    public Optional<Track> addTrack(@Valid @RequestBody Track newTrack) {
+
         trackService.addTrack(newTrack);
+
+        return trackService.getTrack(newTrack.getId());
     }
 }
