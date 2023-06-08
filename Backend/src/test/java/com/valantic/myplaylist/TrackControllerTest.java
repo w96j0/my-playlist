@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,7 +26,7 @@ class TrackControllerTest {
     private final String URL = "/api/tracks";
 
     @Test
-    void getTracks() throws Exception {
+    void test_getTracks() throws Exception {
 //        given
         Track track1 = new Track(1,
                 "title1",
@@ -46,5 +48,29 @@ class TrackControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
 
+    }
+
+    @Test
+    void test_addTrack() throws Exception {
+
+        String testTrackJson = """ 
+                {
+                "id":1,
+                "name":"Komet",
+                "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        assertTrue(trackRepository.existsById(1));
     }
 }
