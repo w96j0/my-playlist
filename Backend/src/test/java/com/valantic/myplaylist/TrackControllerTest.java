@@ -51,6 +51,28 @@ class TrackControllerTest {
     }
 
     @Test
+    void test_addTrack_name_NotBlank() throws Exception {
+        String testTrackJson = """ 
+                {
+                "id":1,
+                "name":,
+                "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
     void test_addTrack() throws Exception {
 
         String testTrackJson = """ 

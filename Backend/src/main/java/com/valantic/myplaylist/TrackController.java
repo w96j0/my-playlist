@@ -1,5 +1,6 @@
 package com.valantic.myplaylist;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class TrackController {
     }
 
     @PostMapping
-    public void addTrack(@RequestBody Track newTrack) {
+    public void addTrack(@Valid @RequestBody Track newTrack) {
         trackService.addTrack(newTrack);
     }
 }
