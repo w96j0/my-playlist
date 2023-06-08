@@ -1,5 +1,6 @@
 package com.valantic.myplaylist;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,10 +27,15 @@ class TrackControllerTest {
 
     private final String URL = "/api/tracks";
 
+    @BeforeEach
+    void setUp() {
+        trackRepository.deleteAll();
+    }
+
     @Test
     void test_getTracks() throws Exception {
 //        given
-        Track track1 = new Track(1,
+        Track track1 = new Track(
                 "title1",
                 "artist1",
                 "album1",
@@ -40,7 +46,7 @@ class TrackControllerTest {
 
         String expectedJson = """ 
                 [{
-                "id":1,"name":"title1","artist":"artist1","album":"album1","genre":"genre1","duration":1
+                "name":"title1","artist":"artist1","album":"album1","genre":"genre1","duration":1
                 }]
                 """;
 //        when + then
@@ -55,7 +61,6 @@ class TrackControllerTest {
     void test_addTrack_name_NotBlank() throws Exception {
         String testTrackJson = """ 
                 {
-                "id":1,
                 "name":,
                 "artist":"Apache 207 und Udo Lindenberg",
                 "album":"Komet",
@@ -78,7 +83,6 @@ class TrackControllerTest {
 
         String testTrackJson = """ 
                 {
-                "id":1,
                 "name":"Komet",
                 "artist":"Apache 207 und Udo Lindenberg",
                 "album":"Komet",
@@ -93,14 +97,12 @@ class TrackControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
-
-        assertTrue(trackRepository.existsById(1));
     }
 
     @Test
     void test_deleteTrack() throws Exception {
 //        given
-        Track testTrack = new Track(1,
+        Track testTrack = new Track(
                 "Komet",
                 "Apache 207 und Udo Lindenberg",
                 "Komet",
@@ -109,7 +111,6 @@ class TrackControllerTest {
         );
 
         trackRepository.save(testTrack);
-        String testId = "1";
 
 //        when
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/" + testTrack.getId()))

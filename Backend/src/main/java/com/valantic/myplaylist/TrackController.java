@@ -23,4 +23,10 @@ public class TrackController {
     public void addTrack(@Valid @RequestBody Track newTrack) {
         trackService.addTrack(newTrack);
     }
+
+    @DeleteMapping("{trackId}")
+    public  void deleteTrack(@PathVariable("trackId")Integer id) {
+        trackService.deleteTrack(id);
+    }
+
 }

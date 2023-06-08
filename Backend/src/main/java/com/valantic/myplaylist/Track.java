@@ -30,4 +30,11 @@ public class Track {
     private String genre;
     private long duration;
 
+    public Track(String name, String artist, String album, String genre, long duration) {
+        this.name = name;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+        this.duration = duration;
+    }
 }
