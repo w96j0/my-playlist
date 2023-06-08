@@ -51,8 +51,32 @@ class TrackControllerTest {
     }
 
     @Test
-    void test_addTrack_Avoid_Duplicate_Song() {
+    void test_addTrack_Avoid_Duplicate_Song() throws Exception {
+        Track defalutTrack = new Track(
+                1,
+                "Komet",
+                "Apache 207 und Udo Lindenberg",
+                "Komet",
+                "German Pop",
+                16753225);
+        trackRepository.save(defalutTrack);
 
+        String testTrackJson = """ 
+                {
+                "name": "Komet",
+                "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
