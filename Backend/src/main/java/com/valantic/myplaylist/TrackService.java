@@ -19,7 +19,8 @@ public class TrackService {
 
     public void addTrack(Track newTrack) {
         if(trackRepository.existsByNameAndArtist(newTrack.getName(), newTrack.getArtist())) {
-            throw new IllegalArgumentException("The Song is already existing!");
+            throw new IllegalArgumentException("The Song" + newTrack.getName()
+                                        + "by" + newTrack.getArtist() + "is already existing!");
         }
 
         trackRepository.save(newTrack);

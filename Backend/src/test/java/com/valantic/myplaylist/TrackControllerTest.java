@@ -52,14 +52,14 @@ class TrackControllerTest {
 
     @Test
     void test_addTrack_Avoid_Duplicate_Song() throws Exception {
-        Track defalutTrack = new Track(
+        Track defaultTrack = new Track(
                 1,
                 "Komet",
                 "Apache 207 und Udo Lindenberg",
                 "Komet",
                 "German Pop",
                 16753225);
-        trackRepository.save(defalutTrack);
+        trackRepository.save(defaultTrack);
 
         String testTrackJson = """ 
                 {
