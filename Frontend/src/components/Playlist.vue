@@ -9,9 +9,11 @@
 
     <form @submit.prevent="addTrack()">
 
-      <input v-model="newTrack.name" placeholder="Name" />
-
-      <input v-model="newTrack.artist" placeholder="Artist" />
+      <input v-model="newTrack.name" placeholder="Name"/>
+      <input v-model="newTrack.artist" placeholder="Artist"/>
+      <input v-model="newTrack.genre" placeholder="Genre"/>
+      <input v-model="newTrack.album" placeholder="Album"/>
+      <input v-model="newTrack.duration" placeholder="Duration"/>
 
       <button type="submit">Track hinzufügen</button>
 
@@ -24,12 +26,11 @@
 
       <li v-for="track in tracks" :key="track.id">
 
-        <input v-model="track.name" type="text" />
-
-        <input v-model="track.artist" type="text" />
-        <input v-model="track.genre" type="text" />
-        <input v-model="track.album" type="text" />
-        <input v-model="track.duration" type="number" />
+        <input v-model="track.name" type="text"/>
+        <input v-model="track.artist" type="text"/>
+        <input v-model="track.genre" type="text"/>
+        <input v-model="track.album" type="text"/>
+        <input v-model="track.duration" type="number"/>
 
         <button @click="deleteTrack(track.id)">Löschen</button>
 
@@ -100,7 +101,7 @@ export default {
 
         await axios.post(this.baseUrl, this.newTrack);
 
-        this.newTrack = { id: "", name: "", artist: "", age: "" };
+        this.newTrack = {id: "", name: "", artist: "", age: ""};
 
         await this.fetchTracks();
 
@@ -160,8 +161,6 @@ export default {
 
 
 <style scoped>
-
-
 
 
 ul {
