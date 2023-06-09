@@ -16,8 +16,13 @@ public class TrackService {
         return trackRepository.findAll();
     }
 
-    public void addTrack(Track newTrack) {
-        trackRepository.save(newTrack);
+    public Track addTrack(Track newTrack) {
+        if(trackRepository.existsByNameAndArtist(newTrack.getName(), newTrack.getArtist())) {
+            throw new IllegalArgumentException("The Song" + newTrack.getName()
+                                        + "by" + newTrack.getArtist() + "is already existing!");
+        }
+
+        return trackRepository.save(newTrack);
     }
 
     public void deleteTrack(Integer id) {

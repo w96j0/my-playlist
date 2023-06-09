@@ -58,11 +58,62 @@ class TrackControllerTest {
     }
 
     @Test
-    void test_addTrack_name_NotBlank() throws Exception {
+    void test_addTrack_Avoid_Duplicate_Song() throws Exception {
+        Track defaultTrack = new Track(
+                1,
+                "Komet",
+                "Apache 207 und Udo Lindenberg",
+                "Komet",
+                "German Pop",
+                16753225);
+        trackRepository.save(defaultTrack);
+
         String testTrackJson = """ 
                 {
-                "name":,
+                "name": "Komet",
                 "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void test_addTrack_Name_NotBlank() throws Exception {
+        String testTrackJson = """ 
+                {
+                "id":1,
+                "name":"",
+                "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(testTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void test_addTrack_Artist_NotBlank() throws Exception {
+        String testTrackJson = """ 
+                {
+                "name":"Komet",
+                "artist":"",
                 "album":"Komet",
                 "genre":"German Pop",
                 "duration":16753225
@@ -96,7 +147,11 @@ class TrackControllerTest {
                         .content(testTrackJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(testTrackJson));
+
+        assertTrue(trackRepository.existsByNameAndArtist("Komet", "Apache 207 und Udo Lindenberg"));
+
     }
 
     @Test

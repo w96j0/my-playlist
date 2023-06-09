@@ -1,35 +1,44 @@
 package com.valantic.myplaylist;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class TrackServiceTest {
 
     @Mock
-    private TrackRepository trackRepository;
+    TrackRepository trackRepository;
 
-    @AfterEach
-    void tearDown() {
-        trackRepository.deleteAll();
+    TrackService trackService;
+
+    @BeforeEach
+    void setUp() {
+        trackService = new TrackService(trackRepository);
     }
 
     @Test
-    void getTracks() {
+    void test_addTrack() {
 //        given
-        Track newTrack = new Track(1,
+        Track defaultTrack = new Track(
+                1,
                 "Komet",
                 "Apache 207 und Udo Lindenberg",
                 "Komet",
                 "German Pop",
                 16753225);
+        when(trackRepository.save(any(Track.class))).thenReturn(defaultTrack);
+
 //        when
-        trackRepository.save(newTrack);
+        Track actualTrack = trackService.addTrack(defaultTrack);
 //        then
+        assertEquals(defaultTrack, actualTrack);
 
-    }
-
-    @Test
-    void addTrack() {
     }
 }

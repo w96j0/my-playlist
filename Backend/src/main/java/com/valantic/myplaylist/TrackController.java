@@ -20,8 +20,8 @@ public class TrackController {
     }
 
     @PostMapping
-    public void addTrack(@Valid @RequestBody Track newTrack) {
-        trackService.addTrack(newTrack);
+    public Track addTrack(@Valid @RequestBody Track newTrack) {
+        return trackService.addTrack(newTrack);
     }
 
     @DeleteMapping("{trackId}")
