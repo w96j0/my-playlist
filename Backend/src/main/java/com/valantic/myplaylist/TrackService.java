@@ -15,4 +15,14 @@ public class TrackService {
     public List<Track> getTracks() {
         return trackRepository.findAll();
     }
+
+    public Track addTrack(Track newTrack) {
+        if(trackRepository.existsByNameAndArtist(newTrack.getName(), newTrack.getArtist())) {
+            throw new IllegalArgumentException("The Song" + newTrack.getName()
+                                        + "by" + newTrack.getArtist() + "is already existing!");
+        }
+
+        return trackRepository.save(newTrack);
+    }
+
 }
