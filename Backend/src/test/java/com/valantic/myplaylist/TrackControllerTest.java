@@ -143,8 +143,6 @@ class TrackControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-//        TODO check the return value
-
-        assertTrue(trackRepository.existsById(1));
+        assertTrue(trackRepository.existsByNameAndArtist("Komet", "Apache 207 und Udo Lindenberg"));
     }
 }
