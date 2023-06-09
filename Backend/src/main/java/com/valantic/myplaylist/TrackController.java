@@ -25,8 +25,13 @@ public class TrackController {
     }
 
     @DeleteMapping("{id}")
-    public  void deleteTrack(@PathVariable Integer id) {
+    public void deleteTrack(@PathVariable Integer id) {
         trackService.deleteTrack(id);
+    }
+
+    @PutMapping("{id}")
+    public Track updateTrack(@PathVariable Integer id, @Valid @RequestBody Track updatedTrack) {
+        return trackService.updateTrack(id, updatedTrack);
     }
 
 }
