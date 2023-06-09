@@ -3,7 +3,6 @@ package com.valantic.myplaylist;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TrackService {
@@ -17,16 +16,13 @@ public class TrackService {
         return trackRepository.findAll();
     }
 
-    public void addTrack(Track newTrack) {
+    public Track addTrack(Track newTrack) {
         if(trackRepository.existsByNameAndArtist(newTrack.getName(), newTrack.getArtist())) {
             throw new IllegalArgumentException("The Song" + newTrack.getName()
                                         + "by" + newTrack.getArtist() + "is already existing!");
         }
 
-        trackRepository.save(newTrack);
+        return trackRepository.save(newTrack);
     }
 
-    public Optional<Track> getTrack(Integer id) {
-        return trackRepository.findById(id);
-    }
 }

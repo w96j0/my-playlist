@@ -141,7 +141,8 @@ class TrackControllerTest {
                         .content(testTrackJson)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().json(testTrackJson));
 
         assertTrue(trackRepository.existsByNameAndArtist("Komet", "Apache 207 und Udo Lindenberg"));
     }
