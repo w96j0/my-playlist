@@ -3,6 +3,7 @@ package com.valantic.myplaylist;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -28,7 +29,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public  ProblemDetail generalExceptionResponse(Exception exception) {
-        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        ProblemDetail response;
+        if (exception instanceof MethodArgumentNotValidException) {
+            response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        } else {
+            response = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        }
         log.error(exception.getMessage(), exception);
         return response;
     }
