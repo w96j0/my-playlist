@@ -20,6 +20,13 @@ public class GlobalExceptionHandler {
         return response;
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail methodArgumentNotValidExceptionResponse(MethodArgumentNotValidException exception) {
+        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        log.error(exception.getMessage(), exception);
+        return response;
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     public ProblemDetail noSuchElementExceptionResponse(NoSuchElementException exception) {
         ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
@@ -29,12 +36,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public  ProblemDetail generalExceptionResponse(Exception exception) {
-        ProblemDetail response;
-        if (exception instanceof MethodArgumentNotValidException) {
-            response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
-        } else {
-            response = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        }
+        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         log.error(exception.getMessage(), exception);
         return response;
     }
