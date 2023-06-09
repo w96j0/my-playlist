@@ -6,6 +6,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -13,6 +15,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ProblemDetail illegalArgumentExceptionResponse(IllegalArgumentException exception) {
         ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        log.error(exception.getMessage(), exception);
+        return response;
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ProblemDetail noSuchElementExceptionResponse(NoSuchElementException exception) {
+        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
         log.error(exception.getMessage(), exception);
         return response;
     }

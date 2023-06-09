@@ -155,6 +155,17 @@ class TrackControllerTest {
     }
 
     @Test
+    void test_deleteTrackWhenIdNotExists() throws Exception {
+//        given
+        String testId = "1";
+//        when
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + '/' + testId))
+//        then
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void test_deleteTrack() throws Exception {
 //        given
         Track testTrack = new Track(

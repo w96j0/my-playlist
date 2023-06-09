@@ -3,6 +3,7 @@ package com.valantic.myplaylist;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TrackService {
@@ -26,6 +27,10 @@ public class TrackService {
     }
 
     public void deleteTrack(Integer id) {
+        if(!trackRepository.existsById(id)) {
+            throw new NoSuchElementException("ID: " + id + "doesn't exist.");
+        }
+
         trackRepository.deleteById(id);
     }
 }
