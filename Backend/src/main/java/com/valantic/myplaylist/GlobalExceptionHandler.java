@@ -25,4 +25,11 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         return response;
     }
+
+    @ExceptionHandler(Exception.class)
+    public  ProblemDetail generalExceptionResponse(Exception exception) {
+        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        log.error(exception.getMessage(), exception);
+        return response;
+    }
 }
