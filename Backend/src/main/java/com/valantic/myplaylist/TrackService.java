@@ -20,7 +20,7 @@ public class TrackService {
     public Track addTrack(Track newTrack) {
         if(trackRepository.existsByNameAndArtist(newTrack.getName(), newTrack.getArtist())) {
             throw new IllegalArgumentException("The Song" + newTrack.getName()
-                                        + "by" + newTrack.getArtist() + "is already existing!");
+                                        + " by " + newTrack.getArtist() + "is already existing!");
         }
 
         return trackRepository.save(newTrack);
@@ -32,5 +32,22 @@ public class TrackService {
         }
 
         trackRepository.deleteById(id);
+    }
+
+    public Track updateTrack(Integer id, Track updatedTrack) {
+        Track oldTrack = trackRepository.findById(id).get();
+        oldTrack.setName(updatedTrack.getName());
+        oldTrack.setArtist(updatedTrack.getArtist());
+        oldTrack.setAlbum(updatedTrack.getAlbum());
+        oldTrack.setGenre(updatedTrack.getGenre());
+        oldTrack.setDuration(updatedTrack.getDuration());
+        if(trackRepository.existsByNameAndArtist(oldTrack.getName(), oldTrack.getArtist())) {
+            throw new IllegalArgumentException("The Song " + oldTrack.getName()
+                    + " by " + oldTrack.getArtist() + " is already existing!");
+        }
+
+        trackRepository.save(oldTrack);
+
+        return oldTrack;
     }
 }
