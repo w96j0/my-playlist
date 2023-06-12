@@ -1,5 +1,6 @@
 package com.valantic.myplaylist;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,10 +27,15 @@ class TrackControllerTest {
 
     private final String URL = "/api/tracks";
 
+    @BeforeEach
+    void setUp() {
+        trackRepository.deleteAll();
+    }
+
     @Test
     void test_getTracks() throws Exception {
 //        given
-        Track track1 = new Track(1,
+        Track track1 = new Track(
                 "title1",
                 "artist1",
                 "album1",
@@ -39,7 +46,7 @@ class TrackControllerTest {
 
         String expectedJson = """ 
                 [{
-                "id":1,"name":"title1","artist":"artist1","album":"album1","genre":"genre1","duration":1
+                "name":"title1","artist":"artist1","album":"album1","genre":"genre1","duration":1
                 }]
                 """;
 //        when + then
@@ -127,7 +134,6 @@ class TrackControllerTest {
 
         String testTrackJson = """ 
                 {
-                "id":1,
                 "name":"Komet",
                 "artist":"Apache 207 und Udo Lindenberg",
                 "album":"Komet",
@@ -145,5 +151,40 @@ class TrackControllerTest {
                 .andExpect(content().json(testTrackJson));
 
         assertTrue(trackRepository.existsByNameAndArtist("Komet", "Apache 207 und Udo Lindenberg"));
+
+    }
+
+    @Test
+    void test_deleteTrackWhenIdNotExists() throws Exception {
+//        given
+        String testId = "1";
+//        when
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + '/' + testId))
+//        then
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void test_deleteTrack() throws Exception {
+//        given
+        Track testTrack = new Track(
+                "Komet",
+                "Apache 207 und Udo Lindenberg",
+                "Komet",
+                "German Pop",
+                16753225
+        );
+
+        trackRepository.save(testTrack);
+
+//        when
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/" + testTrack.getId()))
+//        then
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        assertFalse(trackRepository.existsById(testTrack.getId()));
+
     }
 }
