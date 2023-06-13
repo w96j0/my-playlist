@@ -37,7 +37,8 @@ public class TrackService {
     }
 
     public Track updateTrack(Integer id, Track updatedTrack) {
-        Track oldTrack = trackRepository.findById(id).get();
+        Track oldTrack = trackRepository.findById(id)
+                        .orElseThrow(() -> new NoSuchElementException(("Track id not found - " + id )) );
         oldTrack.setName(updatedTrack.getName());
         oldTrack.setArtist(updatedTrack.getArtist());
         oldTrack.setAlbum(updatedTrack.getAlbum());
