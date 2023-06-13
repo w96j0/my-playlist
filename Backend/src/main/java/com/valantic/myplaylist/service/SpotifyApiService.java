@@ -33,7 +33,7 @@ public class SpotifyApiService {
         Track track = trackRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(("Track id not found - " + id )) );
 
-        String accessToken = "BQC3pAyJoF6ZAbHHGCx88LYm3Sk9xSnaXS6d8nAoBHjUbIGdR-IfVdTrTVCajstJD3Tea4XprSUBz-Hi6WMtxevVnjtSihUG1b4sudC37-SrY4w16Sk";
+        String accessToken = "BQAUqI5iNbxf_zokqpSOepfBoiwA30eLaok_KMR81Ve2ESQBdWtqNNldVqVm2_zR6CffT6r9_OMgmISonpAEwBMq6BCxHsDGT9mWyGnPa3GdD1AX0nk";
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity requestEntity = new HttpEntity<>(headers);
