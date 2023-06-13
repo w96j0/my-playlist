@@ -1,5 +1,6 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.repository;
 
+import com.valantic.myplaylist.model.Track;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

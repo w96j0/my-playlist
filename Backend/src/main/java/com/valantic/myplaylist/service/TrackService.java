@@ -1,5 +1,7 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.service;
 
+import com.valantic.myplaylist.repository.TrackRepository;
+import com.valantic.myplaylist.model.Track;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

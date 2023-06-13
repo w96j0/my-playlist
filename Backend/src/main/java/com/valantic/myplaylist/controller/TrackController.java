@@ -1,5 +1,7 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.controller;
 
+import com.valantic.myplaylist.model.Track;
+import com.valantic.myplaylist.service.TrackService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

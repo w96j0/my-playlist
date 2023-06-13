@@ -1,5 +1,6 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.service;
 
+import com.valantic.myplaylist.model.Joke;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

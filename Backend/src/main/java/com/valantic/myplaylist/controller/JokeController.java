@@ -1,6 +1,8 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.controller;
 
 
+import com.valantic.myplaylist.model.Joke;
+import com.valantic.myplaylist.service.JokeApiService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

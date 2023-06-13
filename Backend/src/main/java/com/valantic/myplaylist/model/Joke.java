@@ -1,4 +1,4 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
