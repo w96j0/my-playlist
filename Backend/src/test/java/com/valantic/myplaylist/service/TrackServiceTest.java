@@ -1,8 +1,7 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.service;
 
 import com.valantic.myplaylist.model.Track;
 import com.valantic.myplaylist.repository.TrackRepository;
-import com.valantic.myplaylist.service.TrackService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

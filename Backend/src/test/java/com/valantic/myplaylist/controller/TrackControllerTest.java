@@ -1,4 +1,4 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.controller;
 
 import com.valantic.myplaylist.model.Track;
 import com.valantic.myplaylist.repository.TrackRepository;
