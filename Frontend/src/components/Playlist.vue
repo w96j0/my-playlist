@@ -10,12 +10,10 @@
             color="#FF80AB"
             theme="dark"
     >
-      <v-card-title class="text-h5">
-        {{ joke.question }}
-      </v-card-title>
-
-      <v-card-text>
-        {{ joke.answer }}
+        <v-card-text class="text-body-2">
+          <p class="font-weight-bold">{{ joke.question }}</p>
+          <br />
+          {{ joke.answer }}
       </v-card-text>
     </v-card>
     </div>
@@ -101,9 +99,8 @@ export default {
   methods: {
     getJoke() {
       axios.get(this.jokeUrl)
-          //TODO change the response in backend
-        .then(response => (this.joke.question = response.data.setup, this.joke.answer = response.data.delivery))
-        .then(console.log(this.joke))
+        .then(response => response.data)
+        .then(response => (this.joke.question = response.setup, this.joke.answer = response.delivery))
         .catch(error => console.log(error));
     },
 
