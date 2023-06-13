@@ -7,8 +7,12 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class JokeApiService {
 
-    RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final String jokeAPI = "https://v2.jokeapi.dev/joke/Development?type=twopart";
+
+    public JokeApiService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public Joke getJoke() {
 
