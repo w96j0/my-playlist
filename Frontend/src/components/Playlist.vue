@@ -4,6 +4,19 @@
 
     <h1>My Playlist App 9000</h1>
 
+    <div>
+    <v-card class="mx-auto"
+        width="400"
+            color="#FF80AB"
+            theme="dark"
+    >
+        <v-card-text class="text-body-2">
+          <p class="font-weight-bold">{{ joke.question }}</p>
+          <br />
+          {{ joke.answer }}
+      </v-card-text>
+    </v-card>
+    </div>
 
     <h3>Track hinzufügen</h3>
 
@@ -71,13 +84,25 @@ export default {
 
       },
 
+      joke: {
+        question: "",
+        answer: ""
+      },
+
       baseUrl: "http://localhost:8080/api/tracks",
+      jokeUrl: "http://localhost:8080/api/jokes"
 
     };
 
   },
 
   methods: {
+    getJoke() {
+      axios.get(this.jokeUrl)
+        .then(response => response.data)
+        .then(response => (this.joke.question = response.setup, this.joke.answer = response.delivery))
+        .catch(error => console.log(error));
+    },
 
     async fetchTracks() {
 
@@ -145,6 +170,9 @@ export default {
 
     },
 
+  },
+  beforeMount() {
+    this.getJoke();
   },
 
   created() {

@@ -1,4 +1,4 @@
-package com.valantic.myplaylist;
+package com.valantic.myplaylist.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
