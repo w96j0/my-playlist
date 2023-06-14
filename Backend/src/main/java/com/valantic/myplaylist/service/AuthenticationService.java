@@ -21,8 +21,8 @@ public class AuthenticationService {
     @Value("${com.valantic.playlist.client-secret}")
     private String password;
 
-    private final RestTemplate restTemplate;
-    private final String authenticationAPI = "https://accounts.spotify.com/api/token";
+    private RestTemplate restTemplate;
+    private final String AUTHENTICATION_API = "https://accounts.spotify.com/api/token";
 
     public AuthenticationService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -39,7 +39,7 @@ public class AuthenticationService {
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
 
         AuthenticationDTO response = restTemplate.exchange(
-                authenticationAPI,
+                AUTHENTICATION_API,
                 HttpMethod.POST,
                 requestEntity,
                 AuthenticationDTO.class

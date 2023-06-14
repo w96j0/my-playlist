@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class TrackService {
-    private final TrackRepository trackRepository;
+    private TrackRepository trackRepository;
 
     public TrackService(TrackRepository trackRepository) {
         this.trackRepository = trackRepository;
