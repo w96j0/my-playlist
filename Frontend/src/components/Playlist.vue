@@ -34,7 +34,7 @@
 
     <h3>Spotify Info.</h3>
 
-    <div v-if="spotifyInfo" class="spotify-container">
+    <div v-if="spotifyInfo.imageURL!=null" class="spotify-container">
       <img :src="this.spotifyInfo.imageURL" alt="Album cover" class="spotify-image">
       <a :href="this.spotifyInfo.openSpotifyURL" target="_blank" class="spotify-link">
         <button>▶ Play</button>
@@ -73,7 +73,8 @@
 
 import axios from "axios";
 
-
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 export default {
 
   data() {
@@ -99,7 +100,7 @@ export default {
         answer: ""
       },
 
-      spotifyInfo: {},
+      spotifyInfo: { },
 
       baseUrl: "http://localhost:8080/api/tracks",
       jokeUrl: "http://localhost:8080/api/jokes"
@@ -134,56 +135,86 @@ export default {
     },
 
     async addTrack() {
+      const idAdd = toast.loading("Please wait...")
 
       try {
 
-        await axios.post(this.baseUrl, this.newTrack);
+        await axios.post(this.baseUrl, this.newTrack)
+            .then( res => toast.update(idAdd, {
+              render: "The Song '" + res.data.name + "' by '" + res.data.artist + "' was added!",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000}));
 
         this.newTrack = {id: "", name: "", artist: "", age: ""};
 
         await this.fetchTracks();
 
       } catch (error) {
-
         console.error(error);
+        toast.update(idAdd, {
+          render: "Something went wrong: " + error.response.data.detail,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000 });
 
       }
 
     },
 
     async deleteTrack(id) {
-
+      const idDelete = toast.loading("Please wait...")
       try {
 
-        await axios.delete(`${this.baseUrl}/${id}`);
-
+        await axios.delete(`${this.baseUrl}/${id}`)
+            .then( res => toast.update(idDelete, {
+              render: "The song was deleted.",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000}));
         await this.fetchTracks();
 
       } catch (error) {
-
         console.error(error);
+        toast.update(idDelete, {
+          render: "Something went wrong: " + error.response.data.detail,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000 });
 
       }
 
     },
 
     async updateTrack(track) {
+      const idUpdate = toast.loading("Please wait...")
 
       try {
 
-        await axios.put(`${this.baseUrl}/${track.id}`, track);
+        await axios.put(`${this.baseUrl}/${track.id}`, track)
+            .then( res => toast.update(idUpdate, {
+              render: "The song was updated.",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000}));
 
         await this.fetchTracks();
 
       } catch (error) {
 
         console.error(error);
+        toast.update(idUpdate, {
+          render: "Something went wrong: " + error.response.data.detail,
+          type: "error",
+          isLoading: false,
+          autoClose: 3000 });
 
       }
 
     },
 
     async getSpotifyInfo(track) {
+      const idSpotifyInfo = toast.loading("Please wait...")
       try {
         let response = await axios.get(this.baseUrl + `/${track.id}/spotify-info`);
 
@@ -191,7 +222,11 @@ export default {
         if (response.status === 200) {
           spotifyInfoResponse = response.data;
           console.log("Spotify info fetched:" + response.status + " " + response.statusText + " " + JSON. stringify(spotifyInfoResponse));
-
+          toast.update(idSpotifyInfo, {
+            render: "Found this song '" + track.name + "' in Spotify!",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000})
           // set state
           this.spotifyInfo = spotifyInfoResponse;
 
@@ -200,6 +235,12 @@ export default {
         }
       } catch (error) {
         console.error('Error getting Spotify info:', error);
+
+        toast.update(idSpotifyInfo, {
+          render: "Sorry we dont find this song '" + track.name + "'!",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000 });
       }
     },
 
