@@ -19,16 +19,3 @@ spring:
 
   main:
     web-application-type:
-
-
-logging:
-  level:
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate=DEBUG:
-      apache:
-        http=DEBUG:
-    httpclient:
-      wire=DEBUG:

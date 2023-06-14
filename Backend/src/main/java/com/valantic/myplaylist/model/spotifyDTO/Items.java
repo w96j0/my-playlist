@@ -13,5 +13,5 @@ public class Items {
 
     private Album album;
     @JsonProperty("external_urls")
-    private ExternalURL externalurl;
+    private ExternalURL externalURL;
 }

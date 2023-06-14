@@ -21,7 +21,6 @@ public class SpotifyApiService {
 
     private final RestTemplate restTemplate;
     private final String searchforItemURL = "https://api.spotify.com/v1/search";
-//    https://api.spotify.com/v1/search?query=remaster%2520track%3Akomet%2520artist%3AApache%2520207&type=track
     public SpotifyApiService(TrackRepository trackRepository, RestTemplate restTemplate) {
 
         this.trackRepository = trackRepository;
@@ -33,8 +32,22 @@ public class SpotifyApiService {
         Track track = trackRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(("Track id not found - " + id )) );
 
-        String accessToken = "BQAUqI5iNbxf_zokqpSOepfBoiwA30eLaok_KMR81Ve2ESQBdWtqNNldVqVm2_zR6CffT6r9_OMgmISonpAEwBMq6BCxHsDGT9mWyGnPa3GdD1AX0nk";
+        String accessToken = getAccessToken();
 
+        SpotifyResponseDTO response = getSpotifyResponseDTO(track, accessToken);
+
+
+        SpotifyInfo spotifyInfo = new SpotifyInfo();
+        spotifyInfo.setOpenSpotifyURL(response.getTracks().getItems()[0].getExternalURL().getSpotify());
+        spotifyInfo.setImageURL(response.getTracks().getItems()[0].getAlbum().getImages()[0].getImageURL());
+        return spotifyInfo;
+    }
+
+    private static String getAccessToken() {
+        return "BQAUqI5iNbxf_zokqpSOepfBoiwA30eLaok_KMR81Ve2ESQBdWtqNNldVqVm2_zR6CffT6r9_OMgmISonpAEwBMq6BCxHsDGT9mWyGnPa3GdD1AX0nk";
+    }
+
+    private SpotifyResponseDTO getSpotifyResponseDTO(Track track, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity requestEntity = new HttpEntity<>(headers);
         headers.set("Authorization", "Bearer " + accessToken);
@@ -55,11 +68,6 @@ public class SpotifyApiService {
                 SpotifyResponseDTO.class,
                 params
         ).getBody();
-
-
-        SpotifyInfo spotifyInfo = new SpotifyInfo();
-        spotifyInfo.setOpenSpotifyURL(response.getTracks().getItems()[0].getExternalurl().getSpotify());
-        spotifyInfo.setImageURL(response.getTracks().getItems()[0].getAlbum().getImages()[0].getImageURL());
-        return spotifyInfo;
+        return response;
     }
 }
