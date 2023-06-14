@@ -32,6 +32,14 @@
 
     </form>
 
+    <h3>Spotify Info.</h3>
+
+    <div v-if="spotifyInfo" class="spotify-container">
+      <img :src="this.spotifyInfo.imageURL" alt="Album cover" class="spotify-image">
+      <a :href="this.spotifyInfo.openSpotifyURL" target="_blank" class="spotify-link">
+        <button>▶ Play</button>
+      </a>
+    </div>
 
     <h3>Tracks</h3>
 
@@ -44,6 +52,8 @@
         <input v-model="track.genre" type="text"/>
         <input v-model="track.album" type="text"/>
         <input v-model="track.duration" type="number"/>
+
+        <button @click="getSpotifyInfo(track)">Spotify-Informationen holen</button>
 
         <button @click="deleteTrack(track.id)">Löschen</button>
 
@@ -89,6 +99,8 @@ export default {
         answer: ""
       },
 
+      spotifyInfo: {},
+
       baseUrl: "http://localhost:8080/api/tracks",
       jokeUrl: "http://localhost:8080/api/jokes"
 
@@ -103,6 +115,7 @@ export default {
         .then(response => (this.joke.question = response.setup, this.joke.answer = response.delivery))
         .catch(error => console.log(error));
     },
+
 
     async fetchTracks() {
 
@@ -168,6 +181,26 @@ export default {
 
       }
 
+    },
+
+    async getSpotifyInfo(track) {
+      try {
+        let response = await axios.get(this.baseUrl + `/${track.id}/spotify-info`);
+
+        let spotifyInfoResponse
+        if (response.status === 200) {
+          spotifyInfoResponse = response.data;
+          console.log("Spotify info fetched:" + response.status + " " + response.statusText + " " + JSON. stringify(spotifyInfoResponse));
+
+          // set state
+          this.spotifyInfo = spotifyInfoResponse;
+
+        } else {
+          console.error('Error (not ok) getting Spotify info:', response.status, response.statusText, spotifyInfoResponse);
+        }
+      } catch (error) {
+        console.error('Error getting Spotify info:', error);
+      }
     },
 
   },
@@ -346,6 +379,25 @@ li button:nth-of-type(2):hover {
 
   background: #1e7e34;
 
+}
+
+.spotify-container {
+  position: relative;
+  width: 300px;  /* width of your image */
+  height: 300px; /* height of your image */
+}
+
+.spotify-image {
+  width: 100%;
+  height: 100%;
+}
+
+.spotify-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 </style>
