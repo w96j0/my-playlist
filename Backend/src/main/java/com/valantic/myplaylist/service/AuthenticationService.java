@@ -21,7 +21,7 @@ public class AuthenticationService {
     private String password;
 
     private RestTemplate restTemplate;
-    private final String AUTHENTICATION_API = "https://accounts.spotify.com/api/token";
+    private final String authenticationAPI = "https://accounts.spotify.com/api/token";
 
     public AuthenticationService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -38,7 +38,7 @@ public class AuthenticationService {
         HttpEntity<?> requestEntity = new HttpEntity<>(requestBody, headers);
 
         AuthenticationDTO response = restTemplate.exchange(
-                AUTHENTICATION_API,
+                authenticationAPI,
                 HttpMethod.POST,
                 requestEntity,
                 AuthenticationDTO.class
