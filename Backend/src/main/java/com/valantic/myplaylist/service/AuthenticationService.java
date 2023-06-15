@@ -45,10 +45,9 @@ public class AuthenticationService {
                 AuthenticationDTO.class
         ).getBody();
 
-        if(response != null) {
-            return response.getAccessToken();
-        } else {
-            throw new HttpMessageNotReadableException("Token ist null");
+        if(response == null) {
+            throw new HttpMessageNotReadableException("Token is null.");
         }
+        return response.getAccessToken();
     }
 }
