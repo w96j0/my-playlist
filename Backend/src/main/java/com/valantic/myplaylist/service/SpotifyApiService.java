@@ -17,14 +17,15 @@ import java.util.NoSuchElementException;
 @Service
 public class SpotifyApiService {
 
-    private final TrackRepository trackRepository;
-
-    private final RestTemplate restTemplate;
-    private final String searchforItemURL = "https://api.spotify.com/v1/search";
-    public SpotifyApiService(TrackRepository trackRepository, RestTemplate restTemplate) {
+    private TrackRepository trackRepository;
+    private RestTemplate restTemplate;
+    private AuthenticationService authenticationService;
+    private final String SEARCH_ITEM_API = "https://api.spotify.com/v1/search";
+    public SpotifyApiService(TrackRepository trackRepository, RestTemplate restTemplate, AuthenticationService authenticationService) {
 
         this.trackRepository = trackRepository;
         this.restTemplate = restTemplate;
+        this.authenticationService = authenticationService;
     }
 
     public SpotifyInfo getSpotifyInfo(Integer id) {
@@ -43,8 +44,8 @@ public class SpotifyApiService {
         return spotifyInfo;
     }
 
-    private static String getAccessToken() {
-        return "BQAUqI5iNbxf_zokqpSOepfBoiwA30eLaok_KMR81Ve2ESQBdWtqNNldVqVm2_zR6CffT6r9_OMgmISonpAEwBMq6BCxHsDGT9mWyGnPa3GdD1AX0nk";
+    private String getAccessToken() {
+        return authenticationService.getAccessToken();
     }
 
     private SpotifyResponseDTO getSpotifyResponseDTO(Track track, String accessToken) {
@@ -52,7 +53,7 @@ public class SpotifyApiService {
         HttpEntity requestEntity = new HttpEntity<>(headers);
         headers.set("Authorization", "Bearer " + accessToken);
 
-        String urlWithParams = searchforItemURL + "?" +
+        String urlWithParams = SEARCH_ITEM_API + "?" +
                 "query=track:{name} artist:{artist}" +
                 "&type=track";
 
