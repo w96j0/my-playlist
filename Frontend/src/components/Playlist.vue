@@ -135,12 +135,12 @@ export default {
     },
 
     async addTrack() {
-      const idAdd = toast.loading("Please wait...")
+      const toastAdd = toast.loading("Please wait...")
 
       try {
 
         await axios.post(this.baseUrl, this.newTrack)
-            .then( res => toast.update(idAdd, {
+            .then( res => toast.update(toastAdd, {
               render: "The Song '" + res.data.name + "' by '" + res.data.artist + "' was added!",
               type: "success",
               isLoading: false,
@@ -152,7 +152,7 @@ export default {
 
       } catch (error) {
         console.error(error);
-        toast.update(idAdd, {
+        toast.update(toastAdd, {
           render: "Something went wrong: " + error.response.data.detail,
           type: "error",
           isLoading: false,
@@ -163,11 +163,11 @@ export default {
     },
 
     async deleteTrack(id) {
-      const idDelete = toast.loading("Please wait...")
+      const toastDelete = toast.loading("Please wait...")
       try {
 
         await axios.delete(`${this.baseUrl}/${id}`)
-            .then( res => toast.update(idDelete, {
+            .then( res => toast.update(toastDelete, {
               render: "The song was deleted.",
               type: "success",
               isLoading: false,
@@ -176,7 +176,7 @@ export default {
 
       } catch (error) {
         console.error(error);
-        toast.update(idDelete, {
+        toast.update(toastDelete, {
           render: "Something went wrong: " + error.response.data.detail,
           type: "error",
           isLoading: false,
@@ -187,12 +187,12 @@ export default {
     },
 
     async updateTrack(track) {
-      const idUpdate = toast.loading("Please wait...")
+      const toastUpdate = toast.loading("Please wait...")
 
       try {
 
         await axios.put(`${this.baseUrl}/${track.id}`, track)
-            .then( res => toast.update(idUpdate, {
+            .then( res => toast.update(toastUpdate, {
               render: "The song was updated.",
               type: "success",
               isLoading: false,
@@ -203,7 +203,7 @@ export default {
       } catch (error) {
 
         console.error(error);
-        toast.update(idUpdate, {
+        toast.update(toastUpdate, {
           render: "Something went wrong: " + error.response.data.detail,
           type: "error",
           isLoading: false,
@@ -214,7 +214,7 @@ export default {
     },
 
     async getSpotifyInfo(track) {
-      const idSpotifyInfo = toast.loading("Please wait...")
+      const toastSpotifyInfo = toast.loading("Please wait...")
       try {
         let response = await axios.get(this.baseUrl + `/${track.id}/spotify-info`);
 
@@ -222,7 +222,7 @@ export default {
         if (response.status === 200) {
           spotifyInfoResponse = response.data;
           console.log("Spotify info fetched:" + response.status + " " + response.statusText + " " + JSON. stringify(spotifyInfoResponse));
-          toast.update(idSpotifyInfo, {
+          toast.update(toastSpotifyInfo, {
             render: "Found this song '" + track.name + "' in Spotify!",
             type: "success",
             isLoading: false,
@@ -236,7 +236,7 @@ export default {
       } catch (error) {
         console.error('Error getting Spotify info:', error);
 
-        toast.update(idSpotifyInfo, {
+        toast.update(toastSpotifyInfo, {
           render: "Sorry we dont find this song '" + track.name + "'!",
           type: "error",
           isLoading: false,
