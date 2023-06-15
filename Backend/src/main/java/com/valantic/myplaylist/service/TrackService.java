@@ -1,7 +1,7 @@
 package com.valantic.myplaylist.service;
 
-import com.valantic.myplaylist.repository.TrackRepository;
 import com.valantic.myplaylist.model.Track;
+import com.valantic.myplaylist.repository.TrackRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,14 +39,17 @@ public class TrackService {
     public Track updateTrack(Integer id, Track updatedTrack) {
         Track oldTrack = trackRepository.findById(id)
                         .orElseThrow(() -> new NoSuchElementException(("Track id not found - " + id )) );
+        Integer idUpdatesTrack = trackRepository.findByNameAndArtist(updatedTrack.getName(), updatedTrack.getArtist());
+
         oldTrack.setName(updatedTrack.getName());
         oldTrack.setArtist(updatedTrack.getArtist());
         oldTrack.setAlbum(updatedTrack.getAlbum());
         oldTrack.setGenre(updatedTrack.getGenre());
         oldTrack.setDuration(updatedTrack.getDuration());
-        if(trackRepository.existsByNameAndArtist(oldTrack.getName(), oldTrack.getArtist())) {
-            throw new IllegalArgumentException("The Song '" + oldTrack.getName()
-                    + "' by '" + oldTrack.getArtist() + "' is already existing!");
+        if(trackRepository.existsByNameAndArtist(updatedTrack.getName(), updatedTrack.getArtist()) && !idUpdatesTrack.equals(id)) {
+            trackRepository.deleteById(id);
+            throw new IllegalArgumentException("The Song '" + updatedTrack.getName()
+                    + "' by '" + updatedTrack.getArtist() + "' is already existing!");
         }
 
         trackRepository.save(oldTrack);
