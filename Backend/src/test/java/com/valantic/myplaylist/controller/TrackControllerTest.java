@@ -191,6 +191,35 @@ class TrackControllerTest {
     }
 
     @Test
+    void test_updateTrackByGenre() throws Exception {
+        Track existedTrack = new Track(
+                "Komet",
+                "Apache 207 und Udo Lindenberg",
+                "Komet",
+                "German Pop",
+                16753225);
+        trackRepository.save(existedTrack);
+
+        String updatedTrackJson = """ 
+                {
+                "name": "Komet",
+                "artist":"Apache 207 und Udo Lindenberg",
+                "album":"Komet",
+                "genre":"German Pop, Rap",
+                "duration":16753225
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.put(URL + "/" + existedTrack.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTrackJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(updatedTrackJson));
+    }
+
+    @Test
     void test_updateTrackWhenDuplicateSong() throws Exception {
         Track existedTrack = new Track(
                 "Komet",

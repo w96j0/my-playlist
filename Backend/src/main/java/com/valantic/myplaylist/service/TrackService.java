@@ -47,7 +47,6 @@ public class TrackService {
         oldTrack.setGenre(updatedTrack.getGenre());
         oldTrack.setDuration(updatedTrack.getDuration());
         if(trackRepository.existsByNameAndArtist(updatedTrack.getName(), updatedTrack.getArtist()) && !idUpdatesTrack.equals(id)) {
-            trackRepository.deleteById(id);
             throw new IllegalArgumentException("The Song '" + updatedTrack.getName()
                     + "' by '" + updatedTrack.getArtist() + "' is already existing!");
         }
