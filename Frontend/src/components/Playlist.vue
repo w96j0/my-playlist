@@ -1,70 +1,88 @@
 <template>
+  <v-layout>
+    <v-navigation-drawer color="teal-darken-1" permanent>
+      <div class="d-flex justify-center align-center w-100">
+        <img class="logo" src="../assets/spotify_icon.svg" width="300" height="300"/>
+      </div>
+    </v-navigation-drawer>
 
-  <div>
+    <v-app-bar color="teal-lighten-5" elevation="0" :order="order">
+      <div class="ma-auto">
+        <h1 class="font-weight-black">My Playlist App 9000</h1>
+      </div>
+    </v-app-bar>
+  </v-layout>
 
-    <h1>My Playlist App 9000</h1>
-
-    <div>
-    <v-card class="mx-auto"
-        width="400"
+      <div class="d-flex mb-15">
+        <v-card
+            min-width="400px"
+            height="fit-content"
             color="#FF80AB"
             theme="dark"
-    >
-        <v-card-text class="text-body-2">
-          <p class="font-weight-bold">{{ joke.question }}</p>
-          <br />
-          {{ joke.answer }}
-      </v-card-text>
-    </v-card>
-    </div>
+            class="float-left pa-2 mr-5 ml-0"
+        >
+          <v-card-title class="font-italic font-weight-bold">Daily Joke</v-card-title>
+          <v-card-text class="text-body-2">
+            <p class="font-weight-bold">{{ joke.question }}</p>
+            <br />
+            {{ joke.answer }}
+          </v-card-text>
+        </v-card>
 
-    <h3>Track hinzufügen</h3>
+        <v-sheet class="ma-2 pa-2 mr-5 ">
+          <h3 class="font-weight-bold">Track hinzufügen</h3>
 
-    <form @submit.prevent="addTrack()">
+        <form @submit.prevent="addTrack()">
 
-      <input v-model="newTrack.name" placeholder="Name"/>
-      <input v-model="newTrack.artist" placeholder="Artist"/>
-      <input v-model="newTrack.genre" placeholder="Genre"/>
-      <input v-model="newTrack.album" placeholder="Album"/>
-      <input v-model="newTrack.duration" placeholder="Duration"/>
+          <input v-model="newTrack.name" placeholder="Name"/>
+          <input v-model="newTrack.artist" placeholder="Artist"/>
+          <input v-model="newTrack.genre" placeholder="Genre"/>
+          <input v-model="newTrack.album" placeholder="Album"/>
+          <input v-model="newTrack.duration" placeholder="Duration"/>
 
-      <button type="submit">Track hinzufügen</button>
+          <button type="submit">Track hinzufügen</button>
 
-    </form>
-
-    <h3>Spotify Info.</h3>
-
-    <div v-if="spotifyInfo.imageURL!=null" class="spotify-container">
-      <img :src="this.spotifyInfo.imageURL" alt="Album cover" class="spotify-image">
-      <a :href="this.spotifyInfo.openSpotifyURL" target="_blank" class="spotify-link">
-        <button>▶ Play</button>
-      </a>
-    </div>
-
-    <h3>Tracks</h3>
-
-    <ul>
-
-      <li v-for="track in tracks" :key="track.id">
-
-        <input v-model="track.name" type="text"/>
-        <input v-model="track.artist" type="text"/>
-        <input v-model="track.genre" type="text"/>
-        <input v-model="track.album" type="text"/>
-        <input v-model="track.duration" type="number"/>
-
-        <button @click="getSpotifyInfo(track)">Spotify-Informationen holen</button>
-
-        <button @click="deleteTrack(track.id)">Löschen</button>
-
-        <button @click="updateTrack(track)">Speichern</button>
-
-      </li>
-
-    </ul>
+        </form>
+        </v-sheet>
 
 
-  </div>
+        <v-sheet>
+        <div v-if="spotifyInfo.imageURL!=null" class="spotify-container">
+          <h3 class="font-weight-bold">Spotify Info.</h3>
+          <img :src="this.spotifyInfo.imageURL" alt="Album cover" class="spotify-image">
+          <a :href="this.spotifyInfo.openSpotifyURL" target="_blank" class="spotify-link">
+            <button>▶ Play</button>
+          </a>
+        </div>
+        </v-sheet>
+
+        <v-sheet>
+
+          <h3>Tracks</h3>
+
+        <ul>
+
+          <li v-for="track in tracks" :key="track.id">
+
+            <input v-model="track.name" type="text"/>
+            <input v-model="track.artist" type="text"/>
+            <input v-model="track.genre" type="text"/>
+            <input v-model="track.album" type="text"/>
+            <input v-model="track.duration" type="number"/>
+
+            <button @click="getSpotifyInfo(track)">Spotify-Informationen holen</button>
+
+            <button @click="deleteTrack(track.id)">Löschen</button>
+
+            <button @click="updateTrack(track)">Speichern</button>
+
+          </li>
+
+        </ul>
+        </v-sheet>
+
+      </div>
+
 
 </template>
 
@@ -263,7 +281,6 @@ export default {
 
 
 <style scoped>
-
 
 ul {
 

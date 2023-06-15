@@ -4,7 +4,6 @@ import Playlist from './components/Playlist.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/spotify_icon.svg" width="300" height="300"/>
   </header>
   <Playlist msg="You did it!"/>
 </template>
@@ -21,9 +20,9 @@ header {
 
 @media (min-width: 1024px) {
   header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    //display: flex;
+    //place-items: center;
+    //padding-right: calc(var(--section-gap) / 2);
   }
 
   .logo {
@@ -31,9 +30,9 @@ header {
   }
 
   header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    //display: flex;
+    //place-items: flex-start;
+    //flex-wrap: wrap;
   }
 }
 </style>
