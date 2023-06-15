@@ -7,7 +7,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -45,10 +44,9 @@ public class AuthenticationService {
                 AuthenticationDTO.class
         ).getBody();
 
-        if(response != null) {
-            return response.getAccessToken();
-        } else {
-            throw new HttpMessageNotReadableException("Token ist null");
+        if(response == null) {
+            throw new NullPointerException("Cannot get the Token.");
         }
+        return response.getAccessToken();
     }
 }
