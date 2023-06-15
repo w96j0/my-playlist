@@ -41,15 +41,18 @@ public class TrackService {
                         .orElseThrow(() -> new NoSuchElementException(("Track id not found - " + id )) );
         Integer idUpdatesTrack = trackRepository.findByNameAndArtist(updatedTrack.getName(), updatedTrack.getArtist());
 
+        boolean ifOtherTracksWithSameName = (idUpdatesTrack != null) && !id.equals(idUpdatesTrack);
+        if(ifOtherTracksWithSameName) {
+            throw new IllegalArgumentException("The Song '" + updatedTrack.getName()
+                    + "' by '" + updatedTrack.getArtist() + "' is already existing!");
+
+        }
+
         oldTrack.setName(updatedTrack.getName());
         oldTrack.setArtist(updatedTrack.getArtist());
         oldTrack.setAlbum(updatedTrack.getAlbum());
         oldTrack.setGenre(updatedTrack.getGenre());
         oldTrack.setDuration(updatedTrack.getDuration());
-        if(trackRepository.existsByNameAndArtist(updatedTrack.getName(), updatedTrack.getArtist()) && !idUpdatesTrack.equals(id)) {
-            throw new IllegalArgumentException("The Song '" + updatedTrack.getName()
-                    + "' by '" + updatedTrack.getArtist() + "' is already existing!");
-        }
 
         trackRepository.save(oldTrack);
 
